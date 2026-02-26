@@ -1,25 +1,29 @@
 import React, {useEffect, useState} from 'react';
 import Card from '../components/Card.jsx';
 import toast from 'react-hot-toast';
+import Navbar from '../components/Navbar.jsx';
+import RateLimitedUI from '../components/RateLimitedUI.jsx';
+import fetchNotes from '../api/api.js';
 
 const HomePage = () => {
-
+    const [isRateLimited, setRateLimited] = useState(false);
     const [notes, setNotes] = useState([]);
+    const [isLoading, setLoading] = useState(true);
     useEffect(() => {
         const loadNotes = async () => {
             try {
                 // returns array of notes with content snippet
-                // const notes = await fetchNotes();
+                const res = await fetchNotes();
+                // const test = [
+                //     {title: "1", content:"hands", date:"May 15, 2024"},
+                //     {title: "2", content:"eye", date:"January 28, 2023"},
+                //     {title: "3", content:"twelve", date:"February 13, 2025"},
+                //     {title: "4", content:"dramatic", date:"May 13, 2024"}
+                // ]
 
-                const test = [
-                    {title: "1", content:"hands"},
-                    {title: "2", content:"eye"},
-                    {title: "3", content:"twelve"},
-                    {title: "4", content:"dramatic"}
-                ]
-
-                const notes = test;
-                setNotes(notes);
+                // const res = test;
+                console.log(res);
+                setNotes(res);
             } catch (error) {
                 console.error("Error in home page: ", error);
                 
@@ -41,19 +45,12 @@ const HomePage = () => {
     };
     return (
         <>
-            <section data-theme="forest" className="bg-gray-500 w-full min-h-screen flex flex-col text-white">
-                <div className='flex flex-col mt-10'>
-
-                </div>
-                <div className='flex flex-col mt-10'>
-                    <div className='flex justify-between gap-20 pl-10 pr-10'>
-                        <h1 className='text-2xl'>Notes</h1>
-                        <div>
-                            <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl bg-gray-700" onClick={() => toast.success("congrats")}>Create New Note</button>
-                            {/* <button className="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl bg-gray-700" onClick={() => toast.success("congrats")}>Create New Note</button> */}
-                        </div>
-                    </div>
-                    <div className='flex justify-center w-full p-20 flex-grow'>
+            <section className="bg-gray-500 w-full min-h-screen flex flex-col text-white">
+                <Navbar />
+                {isRateLimited && <RateLimitedUI />}
+                <div className='bg-gray-600 flex flex-col mt-10'>
+                    <div className='flex flex-col justify-center w-full p-20 gap-5 flex-grow'>
+                    <h1 className='text-4xl opacity-90'>COLLECTION:</h1>
                         <div className='grid grid-cols-3 gap-10'>
                             {mapper()} 
                         </div>

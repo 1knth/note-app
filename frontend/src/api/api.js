@@ -1,10 +1,15 @@
+import axios from 'axios';
 
-const fetchNotes = async (req, res) => {
+const fetchNotes = async () => {
     try {
-        const list = await fetch('/api/notes/getAllNotes');
-        res.status(200).json(list);
+        const res = await axios.get('http://localhost:5001/api/notes');
+        console.log(res);
+        return res.data;
     } catch (error) {
         console.log("Error in fetchNotes API: ", error);
-        res.status(404).json({message: "Error getting all notes."});
+        //protect map function in homepage.jsx
+        return [];
     }
 };
+
+export default fetchNotes;
