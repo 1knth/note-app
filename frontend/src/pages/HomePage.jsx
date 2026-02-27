@@ -1,60 +1,90 @@
 import React, {useEffect, useState} from 'react';
+import '../components/extra.css';
+import {toast} from 'react-hot-toast';
+import {getNotes} from '../lib/api.js';
 import Card from '../components/Card.jsx';
-import toast from 'react-hot-toast';
-import Navbar from '../components/Navbar.jsx';
 import RateLimitedUI from '../components/RateLimitedUI.jsx';
-import fetchNotes from '../api/api.js';
+import CreatePage from './CreatePage.jsx';
 
 const HomePage = () => {
     const [isRateLimited, setRateLimited] = useState(false);
     const [notes, setNotes] = useState([]);
     const [isLoading, setLoading] = useState(true);
+    const [isCreate, setCreate] = useState(false);
+    
     useEffect(() => {
         const loadNotes = async () => {
             try {
+                setLoading(true);
                 // returns array of notes with content snippet
-                const res = await fetchNotes();
-                // const test = [
-                //     {title: "1", content:"hands", date:"May 15, 2024"},
-                //     {title: "2", content:"eye", date:"January 28, 2023"},
-                //     {title: "3", content:"twelve", date:"February 13, 2025"},
-                //     {title: "4", content:"dramatic", date:"May 13, 2024"}
-                // ]
+                const res = await getNotes();
 
                 // const res = test;
-                console.log(res);
                 setNotes(res);
+                setRateLimited(false);
             } catch (error) {
                 console.error("Error in home page: ", error);
+                if (error.response?.status === 429) {
+                    setRateLimited(true);
+                } else {
+                    toast.error("Failed to load notes");
+                }
                 
+            } finally {
+                setLoading(false);
             }
         }
         loadNotes();
-    }, [setNotes]);
+    }, []);
 
-    const mapper = () => {
+    const mapNotes = () => {
         return notes.map((note) => {
             return (
-                <ul key={note.title}>
-                    <Card 
-                        notes={note}
-                    />
-                </ul>
+                <Card 
+                    key={note.title}
+                    note={note}
+                />
             );
         });
     };
+
+    const create = () => {
+        return (
+            isCreate ? setCreate(false) : setCreate(true)
+        )
+    };
     return (
         <>
-            <section className="bg-gray-500 w-full min-h-screen flex flex-col text-white">
-                <Navbar />
+            <section className="w-full min-h-screen flex flex-col text-white">
                 {isRateLimited && <RateLimitedUI />}
-                <div className='bg-gray-600 flex flex-col mt-10'>
-                    <div className='flex flex-col justify-center w-full p-20 gap-5 flex-grow'>
-                    <h1 className='text-4xl opacity-90'>COLLECTION:</h1>
-                        <div className='grid grid-cols-3 gap-10'>
-                            {mapper()} 
+                <div className='flex justify-center'>
+                    {isCreate 
+                    && <>
+                        <div className='z-30'>
+                            <button onClick={() => setCreate(false)} className='text-xl'>close</button>
                         </div>
-                    </div>
+                        <CreatePage />
+                    </>}
+                </div>
+                <div>
+                    {isLoading 
+                    ? <div className='flex justify-center text-4xl'>loading</div> 
+                    : <div className='flex justify-center'>
+                        <div className='rounded-xl bg-gray-600 flex flex-col my-10 w-10/12'>
+                            <div className='flex flex-col w-full p-20 gap-5 flex-grow'>
+                                <div className='z-10 bg-gray-900 h-20 rounded-xl px-4 flex flex-row justify-between items-center'>
+                                    <div className='flex flex-row gap-3 items-center'>
+                                        <h1 className='text-xl opacity-80'>Latest Notes</h1>
+                                        {/* <input className='h-3'type="text" /> */}
+                                    </div>
+                                    <button onClick= {() => create()}className="new-note-btn">New Note</button>
+                                </div>
+                                <div className='grid grid-cols-3 gap-10'>
+                                    {mapNotes()} 
+                                </div>
+                            </div>
+                        </div> 
+                    </div>}
                 </div>
             </section>
         </>

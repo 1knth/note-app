@@ -29,10 +29,10 @@ export async function getNoteById(req, res) {
 
 export async function createNote(req, res) {
     try {
-        const {title, content} = req.body;
-        const newNote = new Note({title: title, content:content});
+        const title = req.params.title;
+        const newNote = new Note({title: title, content:""});
         const savedNote = await newNote.save();
-        res.status(201).json({savedNote});
+        res.status(201).json(savedNote);
     } catch (error) {
         console.error("Error in createNote controller ", error);
         res.status(500).json({message:"internal server error"});

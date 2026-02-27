@@ -1,0 +1,39 @@
+.new-note-btn {
+    text-align: center;
+    /* background-color: rgb(128, 140, 153); */
+    background-color: rgb(230, 227, 221);
+    color: rgb(31, 31, 31);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0.4rem;
+    transition: 0.2s ease;
+    width: 7rem;
+}
+
+.new-note-btn:hover {
+    /* opacity: 80%; */
+    background-color: rgb(65, 101, 156);
+    color: white;
+}
+.card {
+    transition: 0.2s ease;
+}
+.card:hover {
+    translate: 0 1px;
+    filter: drop-shadow(0px 0px 30px rgba(251, 251, 251, 0.154));
+}
+
+.text-area-container {
+    background-color: rgb(56, 69, 78);
+    /* height:1056px; */
+    filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.541));
+}
+.btn-submit {
+    padding: 0.3rem 1rem 0.3rem 1rem;
+    background-color: white;
+    color: black;
+}
+
+.create-container {
+    backdrop-filter: blur(20px);
+    height: 100%;
+}
