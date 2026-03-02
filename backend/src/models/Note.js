@@ -9,7 +9,8 @@ const noteSchema = new mongoose.Schema({
         required: true
     },
     content: {
-        type: mongoose.Schema.Types.Mixed
+        ops: mongoose.Schema.Types.Mixed,
+        snippet: String
     },
 }, {timestamps: true}); // createdAt, updatedAt
 

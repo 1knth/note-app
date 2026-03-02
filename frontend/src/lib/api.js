@@ -39,3 +39,12 @@ export const saveNote = async (id, content) => {
     }
 }
 
+export const deleteNote = async (id) => {
+    try {
+        const res = await axios.delete(`http://localhost:5001/api/notes/${id}`);
+        return res.data;
+    } catch (error) {
+        console.error(`Error in deleteNote API`, error);
+    }
+}
+

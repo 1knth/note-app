@@ -42,8 +42,7 @@ export async function createNote(req, res) {
 export async function updateNote(req, res) {
     try {
         const content = req.body;
-        console.log(content);
-        const updatedNote = await Note.findByIdAndUpdate(req.params.id, {content}, {new: true, upsert: true}); 
+        const updatedNote = await Note.findByIdAndUpdate(req.params.id, {content: {ops: content.ops, snippet: content.snippet}}, {new: true, upsert: true}); 
         if (!updatedNote) { // if note id does not exist -> exit
             return res.status(404).json({message:"Note not found"});
         }
@@ -56,12 +55,11 @@ export async function updateNote(req, res) {
 
 export async function deleteNote(req, res) {
     try {
-        const {title, content} = req.body;
-        const deletedNote = await Note.findByIdAndDelete(req.params.id, {title,content}); 
+        const deletedNote = await Note.findByIdAndDelete(req.params.id); 
         if (!deletedNote) { // if note id does not exist -> exit
             return res.status(404).json({message:"Note not found"});
         }
-        res.status(200).json({message: "Note deleted successfully"});
+        res.status(200).json(deletedNote);
     } catch (error) {
         console.error("Error in deleteNote controller ", error);
         res.status(500).json({message:"internal server error"});
