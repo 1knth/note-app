@@ -1,9 +1,11 @@
 import React from 'react';
+import {Link} from 'react-router';
 
 const Navbar = () => {
+  
   return (
-    <header className='relative bg-gray-600 flex justify-between items-center gap-20 px-10 py-3'>
-        <h1 className='text-2xl font-mono tracking-tight text-white'>Notes</h1>
+    <header className='relative bg-gray-200 flex justify-between items-center gap-20 px-10 py-3'>
+        <Link to={'/'} className='text-2xl font-mono tracking-tight text-black' >Notes</Link>
     </header>
 )
 }

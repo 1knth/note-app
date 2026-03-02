@@ -9,7 +9,7 @@ const noteSchema = new mongoose.Schema({
         required: true
     },
     content: {
-        type: String,
+        type: mongoose.Schema.Types.Mixed
     },
 }, {timestamps: true}); // createdAt, updatedAt
 

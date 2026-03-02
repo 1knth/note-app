@@ -11,14 +11,18 @@ const PORT = process.env.PORT || 5001;
 const app = express(); // initialize web server
 
 //middleware
-app.use(cors());
+app.use(cors(   
+    {   
+        origin: 'http://localhost:5173',
+    }
+));
 app.use(express.json()); // allows us to get access to req.body 
 // app.use(rateLimiter);
 
 app.use("/api/notes", notesRoutes);
 
 connectDB().then(() => {
-    app.listen(PORT, () => {
+    app.listen(PORT, '127.0.0.1', () => {
         console.log("App listening on PORT: ", PORT);
     });
 });

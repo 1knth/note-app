@@ -6,7 +6,7 @@ import CreatePage from './pages/CreatePage.jsx';
 import Navbar from './components/Navbar.jsx';
 const App = () => {
   return (
-    <div className='bg-gray-500'>
+    <div className=''>
       <Navbar/>
       <Routes>
         <Route path='/' element={<HomePage />}></Route>
