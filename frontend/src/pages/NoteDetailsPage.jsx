@@ -6,6 +6,7 @@ import Quill from 'quill';
 const Delta = Quill.import('delta');
 import {toast} from 'react-hot-toast';
 import spinner from '../assets/ring-resize.svg';
+import {Link} from 'react-router';
 
 
 const NoteDetailsPage = () => {
@@ -80,8 +81,9 @@ const NoteDetailsPage = () => {
   return (
     <>
       {isLoading 
-      ? <h1>loading</h1>
-      : <article className="w-full min-h-100 flex justify-center flex-col text-black mt-5 ">
+      ? <img className='w-3'src={spinner} alt="loading" />
+      : <article className="w-full min-h-100 flex flex-col text-black mt-5 ">
+          <Link to='/' id='back-btn' className='flex opacity-40 text-xl mx-20 hover:opacity-80'> back</Link>
           <div className='flex h-20 flex-col justify-center text-sm mx-20'>
             <input className='text-5xl important font-bold' value={title} onChange={(e) => getTitle(e)}/>
             {isSaved 
