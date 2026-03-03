@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router';
 import '../components/extra.css';
 import {toast} from 'react-hot-toast';
-import {createNote, getNote} from '../lib/api.js';
+import {createNote} from '../lib/api.js';
 
 const CreatePage = () => {
   const [title, setTitle] = useState("");
